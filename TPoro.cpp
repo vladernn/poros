@@ -31,7 +31,12 @@ TPoro::TPoro(TPoro& poroX)
 	x=poroX.x;
 	y=poroX.y;
 	volumen=poroX.volumen;
-	color=poroX.color;
+	if(poroX!=NULL)
+	{
+		color=new char[strlen( poroX.color)+1];
+		strcpy(color,poroX.color);
+	}
+
 }
 TPoro::~TPoro()
 {
