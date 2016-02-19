@@ -11,6 +11,8 @@
 #include<iostream>
 #include<stdlib.h>
 #include<string.h>
+#include<stdio.h>
+#include <cctype>
 using namespace std;
 
 class TPoro {

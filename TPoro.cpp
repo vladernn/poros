@@ -7,7 +7,7 @@
 #include "TPoro.h"
 
 TPoro::TPoro() {
-	color= NULL; // preguntar por que no va el NULL :(
+	color= NULL;
 	x=0;
 	y=0;
 	volumen=0;
@@ -25,18 +25,25 @@ TPoro::TPoro(int x,int y,double vol,char* col)
 	this->y=y;
 	volumen=vol;
 	color=col;
+	for(unsigned int i=0;i<strlen(color);i++)
+				putchar (tolower(color[i]));
 }
-TPoro::TPoro(TPoro& poroX)
+TPoro::TPoro(TPoro &poroX)
 {
 	x=poroX.x;
 	y=poroX.y;
 	volumen=poroX.volumen;
-	if(poroX!=NULL)
+	if(poroX.EsVacio()==false)
 	{
 		color=new char[strlen( poroX.color)+1];
 		strcpy(color,poroX.color);
-	}
+		for(unsigned int i=0;i<strlen(color);i++)
+			putchar (tolower(color[i]));
 
+	}else
+	{
+		color=NULL;
+	}
 }
 TPoro::~TPoro()
 {
@@ -44,10 +51,9 @@ TPoro::~TPoro()
 		volumen=0;
 		delete[] color;
 }
-TPoro & operator=(TPoro & suPoro)
+TPoro& TPoro::operator=(TPoro & suPoro)
 {
-	TPoro miPoro=new TPoro(suPoro.PosicionX(),suPoro.PosicionY(),suPoro.Volumen(),suPoro.Color());
-	return(miPoro);
+	return suPoro;
 }
 bool TPoro:: operator==(TPoro & suPoro)
 {
@@ -61,8 +67,8 @@ bool TPoro:: operator==(TPoro & suPoro)
 		}
 	}
 
-	if(this->PosicionX()==suPoro.PosicionX() and this->PosicionY()==suPoro.PosicionY() and
-			and this->Volumen()==suPoro.Volumen() and sonIguales)
+	if(this->PosicionX()==suPoro.PosicionX() && this->PosicionY()==suPoro.PosicionY()
+			&& this->Volumen()==suPoro.Volumen() && sonIguales==true)
 	{
 		return(true);
 	}else
@@ -72,7 +78,7 @@ bool TPoro:: operator==(TPoro & suPoro)
 }
 bool TPoro::operator!=(TPoro & suPoro)
 {
-	if(this==suPoro)
+	if(*this==suPoro)
 	{
 		return(false);
 	}else
@@ -80,10 +86,24 @@ bool TPoro::operator!=(TPoro & suPoro)
 		return(true);
 	}
 }
+bool TPoro::EsVacio()
+{
+	if(this->color==NULL and this->volumen==0 and this->x==0 and this->y==0)
+	{
+		return true;
+	}else
+	{
+		return false;
+	}
+
+}
 int main()
 {
-	TPoro* miPoro=new TPoro(1,2,2.07,"amarillo");
-	cout<<":"<<miPoro->Volumen()<<":"<<miPoro->Color()<<endl;
+	TPoro miPoro(1,2,2.07,"Amarillo");
+	cout<<":"<<miPoro.Volumen()<<":"<<miPoro.Color()<<endl;
+	TPoro miPoro2(miPoro);
+	cout<<":"<<miPoro2.Volumen()<<":"<<miPoro2.Color()<<endl;
+
 	return 0;
 }
 
